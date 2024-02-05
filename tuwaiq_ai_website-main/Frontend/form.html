@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مقياس السكتة الدماغية</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+        *{
+            font-family:"IBM Plex Sans Arabic";
+        }
+
+        body{
+            background-color: beige;
+        }
+
+        #box{
+            background-color: bisque;
+            width:25%;
+            height:850px;
+            border:1px solid black ;
+            margin:auto;
+            text-align: center;
+            border-radius: 25px 25px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <h1>هل انت معرض لسكتة دماغية؟</h1>
+        <h2>الجنس</h2>
+        <label Name="Gender">ذكر</label>
+        <INPUT TYPE="Radio" Name="Gender" Value="Male" id="Male">
+        <br>
+        <labe Name="Gender">انثى</label>
+        <INPUT TYPE="Radio" Name="Gender" Value="Female" id="Female">
+        <br>
+        <br>
+        <h2>العمر</h2>
+        <br>
+        <input type="number" id="Age">
+        <br>
+        <h2>هل انت متزوج؟</h2>
+        <label name="Marriage">نعم</label>
+        <input type="Radio" name="Marriage" Value="Married" id="YesMarried">
+        <br>
+        <label name="Marriage">لا</label>
+        <input type="Radio" name="Marriage" Value="NotMarried" id="NotMarried">
+        <br>
+        <br>
+        <h2>متوسط سكر الدم</h2>
+        <input type="number" id="AGL">
+        <br>
+        <br>
+        <h2>كتلة الجسم</h2>
+        <input type="number" id="BMI">
+        <br>
+        <br>
+        <button id="button">ارسال</button>
+        <h1 id="message"></h1>
+    </div>
+
+    <script>
+        let male = document.getElementById('Male')
+        let age = document.getElementById('Age')
+        let YesMarried = document.getElementById('YesMarried')
+        let agl = document.getElementById('AGL')
+        let bmi = document.getElementById('BMI')
+        let mesg = document.getElementById('message')
+        function OnMessage(msg){
+            if(msg != undefined){
+                mesg.innerHTML = msg
+            }else{
+                mesg.innerHTML = ""
+            }
+        }
+
+        document.getElementById('button').onclick = function(){
+            mesg.innerHTML = ''
+            fetch('/check',{method:'POST',body:JSON.stringify({Gender:male.checked,Age:age.value,Married:YesMarried.checked,AGL:agl.value,BMI:bmi.value}),headers:{'Content-Type':'application/json'}})
+        .then(Response => Response.json())
+        .then(function(data){
+            male.checked = false
+            age.value = null
+            YesMarried.checked = false
+            agl.value = null
+            bmi.value = null
+            if(data['message'] == true){
+                OnMessage('فرصة اصابتك عالية')
+            }else{
+                OnMessage('فرصة اصابتك منخفضة')
+            }
+        })
+        }
+    </script>
+</body>
+</html>
