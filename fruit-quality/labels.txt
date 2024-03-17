@@ -1,0 +1,8 @@
+0 stale banana
+1 fresh banana
+2 fresh apple
+3 stale apple
+4 fresh tomato
+5 stale tomato
+6 fresh orange
+7 stale orange

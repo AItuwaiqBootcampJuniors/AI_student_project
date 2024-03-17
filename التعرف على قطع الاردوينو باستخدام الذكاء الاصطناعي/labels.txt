@@ -1,0 +1,6 @@
+0 LEDs1
+1 ARDUINO Uno2
+2 LCD SCReen3
+3 Servo4
+4 resistor5
+5 Button Cap6
